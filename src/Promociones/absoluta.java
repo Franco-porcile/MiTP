@@ -5,6 +5,14 @@ import Productos.*;
 
 public class absoluta implements promocion{
 	private int precio;
+	public int getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
+	}
+
 	public absoluta() {
 		precio = 0;
 	}
@@ -18,7 +26,7 @@ public class absoluta implements promocion{
 	@Override
 	public void msjPromocion() {
 		// TODO Auto-generated method stub
-		System.out.println("Aplicando una promocion de tipo absoluto el paquete quedara con un precio de " + this.precio);
+		System.out.println("Aplicando una promocion de tipo absoluto el paquete quedara con un precio de " );
 	}
 	
 }
