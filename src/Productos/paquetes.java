@@ -15,7 +15,9 @@ public class paquetes {
 		this.tipoPaquete = tipo;
 		this.tipoPromocion = tipoPromocion;
 		this.precio = 0;
-
+	}
+	public void agregarAtraccion(atracciones.miAtraccion nueva) {
+		misAtracciones.add(nueva);
 	}
 	public void mostrarProducto() {
 		boolean band = true;
@@ -24,6 +26,7 @@ public class paquetes {
 		
 		System.out.println("Nombre del Paquete: " + nombrePaquete);
 		System.out.println("Paquete del Tipo: " +tipoPaquete);
+		System.out.print("Contiene: ");
 		for(atracciones.miAtraccion atraccion : misAtracciones) {
 			if(band) {
 				cupo = atraccion.cupo;
@@ -34,7 +37,9 @@ public class paquetes {
 			if(atraccion.cupo < cupo) {
 				cupo = atraccion.cupo;
 			}
+			System.out.print(atraccion.nombreAtraccion+" ");
 		}
+		System.out.println();
 		System.out.println("Precio total sin descuento: " + this.precio);
 		System.out.println(this.calcularPrecioDeVenta());
 		System.out.println("Cupo disponible: " + cupo);

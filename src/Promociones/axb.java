@@ -29,7 +29,7 @@ public class axb implements promocion{
 	@Override
 	public void msjPromocion() {
 		// TODO Auto-generated method stub
-		System.out.println("Con el descuento te saldra: " );
+		System.out.println("Con el descuento tipo AxB te saldra: " );
 		
 	}
 	
