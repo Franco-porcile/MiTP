@@ -7,12 +7,12 @@ import Productos.*;
 public class axb implements promocion{
 
 	@Override
-	public int calcularPrecioPromocion(ArrayList<atracciones.miAtraccion> atraccion) {
+	public int calcularPrecioPromocion(ArrayList<atracciones> atraccion) {
 		// TODO Auto-generated method stub
 		int menor = 0;
 		int total = 0;
 		boolean bandera = true;
-		for(atracciones.miAtraccion cadaAtraccion : atraccion) {
+		for(atracciones cadaAtraccion : atraccion) {
 			if (bandera) {
 				menor = cadaAtraccion.getPrecio();
 				bandera = false;

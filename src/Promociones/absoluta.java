@@ -18,7 +18,7 @@ public class absoluta implements promocion{
 	}
 
 	@Override
-	public int calcularPrecioPromocion(ArrayList<atracciones.miAtraccion> atraccion) {
+	public int calcularPrecioPromocion(ArrayList<atracciones> atraccion) {
 		
 		return this.precio;
 	}

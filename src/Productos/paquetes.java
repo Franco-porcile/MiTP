@@ -4,35 +4,42 @@ import java.util.ArrayList;
 
 
 public class paquetes {
-	protected ArrayList<atracciones.miAtraccion> misAtracciones = new ArrayList<>();
+	protected ArrayList<atracciones> misAtracciones = new ArrayList<>();
 	protected String nombrePaquete;
-	protected String tipoPaquete;
+	public String tipoPaquete;
 	protected String tipoPromocion;
 	protected int precio;
-
+	public int tiempo;
+	public int cupo;
+	public ArrayList<atracciones> getMisAtracciones() {
+		return misAtracciones;
+	}
+	public int getPrecio() {
+		return precio;
+	}
 	public paquetes (String nombrePaquete, String tipo,String tipoPromocion) {
 		this.nombrePaquete = nombrePaquete;
 		this.tipoPaquete = tipo;
 		this.tipoPromocion = tipoPromocion;
 		this.precio = 0;
+		this.tiempo = 0;
+		this.cupo = 0;
 	}
-	public void agregarAtraccion(atracciones.miAtraccion nueva) {
+	public void agregarAtraccion(atracciones nueva) {
 		misAtracciones.add(nueva);
 	}
 	public void mostrarProducto() {
 		boolean band = true;
-		int tiempo = 0;
-		int cupo = 0;
 		
 		System.out.println("Nombre del Paquete: " + nombrePaquete);
 		System.out.println("Paquete del Tipo: " +tipoPaquete);
 		System.out.print("Contiene: ");
-		for(atracciones.miAtraccion atraccion : misAtracciones) {
+		for(atracciones atraccion : misAtracciones) {
 			if(band) {
 				cupo = atraccion.cupo;
 				band = false;
 			}
-			this.precio +=atraccion.getPrecio(); 
+			this.precio +=atraccion.precio; 
 			tiempo += atraccion.tiempo;
 			if(atraccion.cupo < cupo) {
 				cupo = atraccion.cupo;

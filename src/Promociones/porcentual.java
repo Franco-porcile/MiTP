@@ -19,11 +19,11 @@ public class porcentual implements promocion{
 		this.porcentaje = porcentaje;
 	}
 	@Override
-	public int calcularPrecioPromocion(ArrayList<atracciones.miAtraccion> atraccion) {
+	public int calcularPrecioPromocion(ArrayList<atracciones> atraccion) {
 		// TODO Auto-generated method stub
 		double total = 0;
 		
-		for(atracciones.miAtraccion cadaAtraccion : atraccion) {
+		for(atracciones cadaAtraccion : atraccion) {
 			total += cadaAtraccion.getPrecio();
 		}
 		 
