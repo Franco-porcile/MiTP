@@ -10,20 +10,14 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class sistema {
-	ArrayList<paquetes> listaPaquetes = new ArrayList<>();
-	ArrayList<atracciones> listaAtracciones = new ArrayList<>();
-	public usuarios usuario;
+	public ArrayList<paquetes> listaPaquetes = new ArrayList<>();
+	public ArrayList<atracciones> listaAtracciones = new ArrayList<>();
+	public ArrayList<usuarios> usuario = new ArrayList<>();
 
-	public sistema(String nombre, String tAtraccionPreferida, int tiempo, int dinero) {
-		usuario = new usuarios(nombre, tAtraccionPreferida, tiempo, dinero);
-	}
-
-	public void crearPaquetes() {
-
-	}
-
-	public void agregarAtracciones() {
-
+	public sistema(ArrayList<paquetes>listaPaquetes,ArrayList<atracciones>listaAtracciones,ArrayList<usuarios>usuario) {
+		this.listaPaquetes = listaPaquetes;
+		this.listaAtracciones = listaAtracciones;
+		this.usuario = usuario;
 	}
 
 	public void ordenarAtracciones() {
@@ -55,95 +49,119 @@ public class sistema {
 		//4° atracciones no afines a sus gustos dejando al final solo los paquetes y atracciones aceptadas
 		ordenarPaquetes();
 		ordenarAtracciones();
-		// Ofrece los paquetes con relacion a sus gustos y los elimina si dice que no
-		Iterator<paquetes> iterator3 = listaPaquetes.iterator();
-		while (iterator3.hasNext()) {
-			paquetes paquete = iterator3.next();
-			if (usuario.tiempo < paquete.tiempo || paquete.cupo == 0 || paquete.getPrecio() > usuario.dinero) {
-				iterator3.remove();
-			} else {
-				if (paquete.tipoPaquete == usuario.tAtraccionPreferida) {
-					if (usuario.dinero >= paquete.getPrecio() && usuario.tiempo >= paquete.tiempo
-							&& paquete.cupo != 0) {
-						paquete.mostrarProducto();
-						if (preguntarXSiONo()) {
-							usuario.dinero -= paquete.getPrecio();
-							usuario.tiempo -= paquete.tiempo;
-							compararPaquetesYAtracciones(paquete.getMisAtracciones());
-						} else
-							iterator3.remove();
+		for (usuarios cUsuario : usuario) {
+			ArrayList<paquetes>listaPaquetesUsuario = listaPaquetes;
+			ArrayList<atracciones>listaAtraccionesUsuario = listaAtracciones;
+			
+			// Ofrece los paquetes con relacion a sus gustos y los elimina si dice que no
+			Iterator<paquetes> iterator3 = listaPaquetesUsuario.iterator();
+			while (iterator3.hasNext()) {
+				paquetes paquete = iterator3.next();
+				if (cUsuario.tiempo < paquete.tiempo || paquete.cupo == 0 || paquete.getPrecio() > cUsuario.dinero) {
+					iterator3.remove();
+				} else {
+					if (paquete.tipoPaquete == cUsuario.tAtraccionPreferida) {
+						if (cUsuario.dinero >= paquete.getPrecio() && cUsuario.tiempo >= paquete.tiempo
+								&& paquete.cupo != 0) {
+							paquete.mostrarProducto();
+							if (preguntarXSiONo()) {
+								cUsuario.dinero -= paquete.getPrecio();
+								cUsuario.tiempo -= paquete.tiempo;
+								compararPaquetesYAtracciones(paquete.getMisAtracciones());
+							} else
+								iterator3.remove();
+						}
 					}
 				}
 			}
-		}
-		Iterator<atracciones> iterator = listaAtracciones.iterator();
-		// Ofrece las atracciones de acuerdo con sus gustos y los elimina si dice que no
-		while (iterator.hasNext()) {
-			atracciones valor = iterator.next();
-			if (usuario.tiempo < valor.getTiempo() || valor.getCupo() == 0 || valor.getPrecio() > usuario.dinero) {
-				iterator.remove();
-			} else {
-				if (valor.getTipoAtraccion() == usuario.tAtraccionPreferida) {
-					if (usuario.dinero >= valor.getPrecio() && usuario.tiempo >= valor.getTiempo()
-							&& valor.getCupo() != 0) {
-						valor.mostrarProducto();
-						if (preguntarXSiONo()) {
-							usuario.dinero -= valor.getPrecio();
-							usuario.tiempo -= valor.getTiempo();
-						} else
-							iterator.remove();
-					}
+			Iterator<atracciones> iterator = listaAtraccionesUsuario.iterator();
+			// Ofrece las atracciones de acuerdo con sus gustos y los elimina si dice que no
+			while (iterator.hasNext()) {
+				atracciones valor = iterator.next();
+				if (cUsuario.tiempo < valor.getTiempo() || valor.getCupo() == 0 || valor.getPrecio() > cUsuario.dinero) {
+					iterator.remove();
+				} else {
+					if (valor.getTipoAtraccion() == cUsuario.tAtraccionPreferida) {
+						if (cUsuario.dinero >= valor.getPrecio() && cUsuario.tiempo >= valor.getTiempo()
+								&& valor.getCupo() != 0) {
+							valor.mostrarProducto();
+							if (preguntarXSiONo()) {
+								cUsuario.dinero -= valor.getPrecio();
+								cUsuario.tiempo -= valor.getTiempo();
+							} else
+								iterator.remove();
+						}
 
-				}
-
-			}
-		}
-		Iterator<paquetes> iterator4 = listaPaquetes.iterator();
-		// Ofrece los paquetes que no tienen relacion a sus gustos y los elimina si dice
-		// que no
-		while (iterator4.hasNext()) {
-			paquetes paquete = iterator4.next();
-			if (usuario.tiempo < paquete.tiempo || paquete.cupo == 0 || paquete.getPrecio() > usuario.dinero) {
-				iterator4.remove();
-			} else {
-				if (paquete.tipoPaquete != usuario.tAtraccionPreferida) {
-					if (usuario.dinero >= paquete.getPrecio() && usuario.tiempo >= paquete.tiempo
-							&& paquete.cupo != 0) {
-						paquete.mostrarProducto();
-						if (preguntarXSiONo()) {
-							usuario.dinero -= paquete.getPrecio();
-							usuario.tiempo -= paquete.tiempo;
-							compararPaquetesYAtracciones(paquete.getMisAtracciones());
-						} else
-							iterator4.remove();
-					}
-				}
-			}
-		}
-		// Ultima opcion, ofrece las atracciones que no son de sus gustos y si dice que
-		// no las elimina
-		Iterator<atracciones> iterator2 = listaAtracciones.iterator();
-		while (iterator2.hasNext()) {
-			atracciones valor = iterator2.next();
-			if (usuario.tiempo < valor.getTiempo() || valor.getCupo() == 0 || valor.getPrecio() > usuario.dinero) {
-				iterator2.remove();
-			} else {
-				if (valor.getTipoAtraccion() != usuario.tAtraccionPreferida) {
-					if (usuario.dinero >= valor.getPrecio() && usuario.tiempo >= valor.getTiempo()
-							&& valor.getCupo() != 0) {
-						valor.mostrarProducto();
-						if (preguntarXSiONo()) {
-							usuario.dinero -= valor.getPrecio();
-							usuario.tiempo -= valor.getTiempo();
-						} else
-							iterator2.remove();
 					}
 
 				}
 			}
+			Iterator<paquetes> iterator4 = listaPaquetesUsuario.iterator();
+			// Ofrece los paquetes que no tienen relacion a sus gustos y los elimina si dice
+			// que no
+			while (iterator4.hasNext()) {
+				paquetes paquete = iterator4.next();
+				if (cUsuario.tiempo < paquete.tiempo || paquete.cupo == 0 || paquete.getPrecio() > cUsuario.dinero) {
+					iterator4.remove();
+				} else {
+					if (paquete.tipoPaquete != cUsuario.tAtraccionPreferida) {
+						if (cUsuario.dinero >= paquete.getPrecio() && cUsuario.tiempo >= paquete.tiempo
+								&& paquete.cupo != 0) {
+							paquete.mostrarProducto();
+							if (preguntarXSiONo()) {
+								cUsuario.dinero -= paquete.getPrecio();
+								cUsuario.tiempo -= paquete.tiempo;
+								compararPaquetesYAtracciones(paquete.getMisAtracciones());
+							} else
+								iterator4.remove();
+						}
+					}
+				}
+			}
+			// Ultima opcion, ofrece las atracciones que no son de sus gustos y si dice que
+			// no las elimina
+			Iterator<atracciones> iterator2 = listaAtraccionesUsuario.iterator();
+			while (iterator2.hasNext()) {
+				atracciones valor = iterator2.next();
+				if (cUsuario.tiempo < valor.getTiempo() || valor.getCupo() == 0 || valor.getPrecio() > cUsuario.dinero) {
+					iterator2.remove();
+				} else {
+					if (valor.getTipoAtraccion() != cUsuario.tAtraccionPreferida) {
+						if (cUsuario.dinero >= valor.getPrecio() && cUsuario.tiempo >= valor.getTiempo()
+								&& valor.getCupo() != 0) {
+							valor.mostrarProducto();
+							if (preguntarXSiONo()) {
+								cUsuario.dinero -= valor.getPrecio();
+								cUsuario.tiempo -= valor.getTiempo();
+							} else
+								iterator2.remove();
+						}
+						
+					}
+				}
+			}
+			actualizarListas(listaPaquetesUsuario, listaAtraccionesUsuario);
 		}
 	}
 
+	private void actualizarListas(ArrayList<paquetes>paquetes,ArrayList<atracciones>atracciones) {
+		for(paquetes cadaPaquete : paquetes) {
+			for(paquetes lista : listaPaquetes) {
+				if(cadaPaquete.nombrePaquete.equals(lista.nombrePaquete)) {
+					lista.cupo -= 1;
+					atracciones.addAll(cadaPaquete.getMisAtracciones());
+				}
+			}
+		}
+		for(atracciones cadaAtraccion : atracciones) {
+			for(atracciones lista : listaAtracciones) {
+				if(cadaAtraccion.nombreAtraccion.equals(lista.nombreAtraccion)) {
+					lista.setCupo(lista.getCupo()-1); 
+				}
+			}
+		}
+				
+	}
 	public boolean preguntarXSiONo() {
 		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 		String respuesta = "";

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class paquetes {
 	protected ArrayList<atracciones> misAtracciones = new ArrayList<>();
-	protected String nombrePaquete;
+	public String nombrePaquete;
 	public String tipoPaquete;
 	protected String tipoPromocion;
 	protected int precio;
